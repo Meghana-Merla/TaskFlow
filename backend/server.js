@@ -1,21 +1,14 @@
 require("dotenv").config()
-const mongoose = require("mongoose")
+const connectDB = require("./config/db")
 
 const express = require("express")
 const cors = require("cors")
 
 const swaggerUi = require("swagger-ui-express")
 const swaggerJsDoc = require("swagger-jsdoc")
-
+const taskRoutes = require("./routes/taskRoutes")
 const app = express()
-
-mongoose.connect(process.env.MONGO_URI)
-.then(() => {
-  console.log("MongoDB connected")
-})
-.catch((error) => {
-  console.log(error)
-})
+connectDB()
 
 app.use(cors())
 app.use(express.json())
@@ -36,7 +29,7 @@ const options = {
       }
     ]
   },
-  apis: ["./server.js"]
+  apis: ["./server.js", "./routes/*.js"]
 }
 
 const swaggerSpec = swaggerJsDoc(options)
@@ -62,7 +55,7 @@ app.get("/", (req, res) => {
 })
 
 const PORT = 5000
-
+app.use("/api", taskRoutes)
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
