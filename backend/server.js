@@ -1,3 +1,6 @@
+require("dotenv").config()
+const mongoose = require("mongoose")
+
 const express = require("express")
 const cors = require("cors")
 
@@ -5,6 +8,14 @@ const swaggerUi = require("swagger-ui-express")
 const swaggerJsDoc = require("swagger-jsdoc")
 
 const app = express()
+
+mongoose.connect(process.env.MONGO_URI)
+.then(() => {
+  console.log("MongoDB connected")
+})
+.catch((error) => {
+  console.log(error)
+})
 
 app.use(cors())
 app.use(express.json())
