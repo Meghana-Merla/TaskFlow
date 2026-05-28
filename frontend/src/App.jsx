@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 function App() {
 
   const [task, setTask] = useState("")
+  const [darkMode, setDarkMode] = useState(true)
   const [tasks, setTasks] = useState(() => {
 
     const savedTasks =
@@ -94,7 +95,9 @@ function App() {
     <div
       style={{
         minHeight: "100vh",
-        backgroundColor: "#0f172a",
+        backgroundColor: darkMode
+          ? "#0f172a"
+          : "#e2e8f0",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -105,18 +108,48 @@ function App() {
         style={{
           width: "100%",
           maxWidth: "500px",
-          backgroundColor: "#1e293b",
+          backgroundColor: darkMode
+            ? "#1e293b"
+            : "#ffffff",
           padding: "30px",
           borderRadius: "20px",
           boxShadow: "0 0 20px rgba(0,0,0,0.3)"
         }}
       >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginBottom: "10px"
+          }}
+        >
 
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            style={{
+              padding: "8px 14px",
+              border: "none",
+              borderRadius: "8px",
+              cursor: "pointer",
+              backgroundColor: darkMode
+                ? "#f8fafc"
+                : "#0f172a",
+              color: darkMode
+                ? "#0f172a"
+                : "white",
+              fontWeight: "bold"
+            }}
+          >
+            {darkMode ? "☀️" : "🌙"}
+          </button>
+
+        </div>
         <h1
           style={{
             textAlign: "center",
             fontSize: "42px",
-            marginBottom: "10px"
+            marginBottom: "10px",
+            color: darkMode ? "white" : "#0f172a"
           }}
         >
           TaskFlow
@@ -125,7 +158,9 @@ function App() {
         <p
           style={{
             textAlign: "center",
-            color: "#94a3b8",
+            color: darkMode
+              ? "#94a3b8"
+              : "#475569",
             marginBottom: "30px"
           }}
         >
@@ -136,7 +171,8 @@ function App() {
           style={{
             display: "flex",
             gap: "10px",
-            marginBottom: "20px"
+            marginBottom: "20px",
+            alignItems: "stretch"
           }}
         >
 
@@ -151,20 +187,26 @@ function App() {
               border: "none",
               borderRadius: "10px",
               outline: "none",
-              fontSize: "15px"
+              fontSize: "15px",
+              backgroundColor: darkMode
+                ? "#f8fafc"
+                : "#ffffff",
+              color: "#0f172a",
+              fontWeight: "500"
             }}
           />
 
           <button
             onClick={addTask}
             style={{
-              padding: "12px 18px",
+              padding: "0 20px",
               border: "none",
               borderRadius: "10px",
               backgroundColor: "#3b82f6",
               color: "white",
               cursor: "pointer",
-              fontWeight: "bold"
+              fontWeight: "bold",
+              transition: "0.3s"
             }}
           >
             Add
@@ -204,17 +246,36 @@ function App() {
         </div>
 
         {
+          filteredTasks.length === 0 && (
+            <p
+              style={{
+                textAlign: "center",
+                color: darkMode
+                  ? "#94a3b8"
+                  : "#475569",
+                marginTop: "30px"
+              }}
+            >
+              No tasks found
+            </p>
+          )
+        }
+
+        {
           filteredTasks.map((item) => (
             <div
               key={item.id}
               style={{
-                backgroundColor: "#334155",
+                backgroundColor: darkMode
+                  ? "#334155"
+                  : "#e2e8f0",
                 padding: "15px",
                 borderRadius: "12px",
                 marginBottom: "12px",
                 display: "flex",
                 justifyContent: "space-between",
-                alignItems: "center"
+                alignItems: "center",
+                transition: "0.3s"
               }}
             >
 
@@ -239,7 +300,9 @@ function App() {
                       : "none",
                     color: item.completed
                       ? "#94a3b8"
-                      : "white"
+                      : darkMode
+                        ? "white"
+                        : "#0f172a"
                   }}
                 >
                   {item.title}
@@ -251,7 +314,9 @@ function App() {
                 onClick={() => deleteTask(item.id)}
                 style={{
                   backgroundColor: "#ef4444",
-                  border: "none",
+                  border: darkMode
+                    ? "none"
+                    : "1px solid #cbd5e1",
                   padding: "8px 12px",
                   borderRadius: "8px",
                   color: "white",
