@@ -16,6 +16,7 @@ function App(){
   const [title,setTitle] = useState("")
   const [filter,setFilter] = useState("all")
   const [darkMode,setDarkMode] = useState(true)
+  const [editId,setEditId] = useState(null)
 
   const fetchTasks = async () => {
 
@@ -37,12 +38,29 @@ function App(){
 
     if(!title.trim()) return
 
-    await axios.post(
-      "http://localhost:5000/api/tasks",
-      {
-        title
-      }
-    )
+    if(editId){
+
+      await axios.put(
+        `http://localhost:5000/api/tasks/${editId}`,
+        {
+          title
+        }
+      )
+
+      setEditId(null)
+
+    }
+
+    else{
+
+      await axios.post(
+        "http://localhost:5000/api/tasks",
+        {
+          title
+        }
+      )
+
+    }
 
     setTitle("")
 
@@ -72,7 +90,13 @@ function App(){
     fetchTasks()
 
   }
+  const editTask = (task) => {
 
+    setTitle(task.title)
+
+    setEditId(task._id)
+
+  }
   const filteredTasks = tasks.filter((task) => {
 
     if(filter === "completed"){
@@ -142,7 +166,15 @@ function App(){
           />
 
           <button onClick={createTask}>
-            Add Task
+
+            {
+              editId
+              ?
+              "Update Task"
+              :
+              "Add Task"
+            }
+
           </button>
 
         </div>
@@ -213,7 +245,10 @@ function App(){
 
                 <div className="actions">
 
-                  <button className="edit-btn">
+                  <button
+                    className="edit-btn"
+                    onClick={()=>editTask(task)}
+                  >
                     <FaEdit />
                   </button>
 
