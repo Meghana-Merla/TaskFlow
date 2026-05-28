@@ -4,8 +4,14 @@ function App() {
 
   const [task, setTask] = useState("")
   const [tasks, setTasks] = useState([])
+  const [filter, setFilter] = useState("all")
 
   const addTask = () => {
+
+    if(task.trim() === ""){
+      alert("Please enter a task")
+      return
+    }
 
     const newTask = {
       id: Date.now(),
@@ -42,6 +48,19 @@ function App() {
     setTasks(filteredTasks)
   }
 
+  const filteredTasks = tasks.filter((item) => {
+
+    if(filter === "completed"){
+      return item.completed
+    }
+
+    if(filter === "pending"){
+      return !item.completed
+    }
+
+    return true
+  })
+
   return (
     <div style={{ padding: "20px" }}>
 
@@ -74,8 +93,30 @@ function App() {
 
       </div>
 
+      <div style={{ marginBottom: "20px" }}>
+
+        <button onClick={() => setFilter("all")}>
+          All
+        </button>
+
+        <button
+          onClick={() => setFilter("completed")}
+          style={{ marginLeft: "10px" }}
+        >
+          Completed
+        </button>
+
+        <button
+          onClick={() => setFilter("pending")}
+          style={{ marginLeft: "10px" }}
+        >
+          Pending
+        </button>
+
+      </div>
+
       {
-        tasks.map((item) => (
+        filteredTasks.map((item) => (
           <div
             key={item.id}
             style={{
