@@ -1,9 +1,18 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 function App() {
 
   const [task, setTask] = useState("")
-  const [tasks, setTasks] = useState([])
+  const [tasks, setTasks] = useState(() => {
+
+    const savedTasks =
+      localStorage.getItem("tasks")
+
+    return savedTasks
+      ? JSON.parse(savedTasks)
+      : []
+
+  })
   const [filter, setFilter] = useState("all")
 
   const addTask = () => {
@@ -60,103 +69,203 @@ function App() {
 
     return true
   })
+  const filterButtonStyle = (type) => ({
+    padding: "10px 15px",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+    backgroundColor:
+      filter === type ? "#3b82f6" : "#475569",
+    color: "white"
+  })
+
+  useEffect(() => {
+
+    localStorage.setItem(
+      "tasks",
+      JSON.stringify(tasks)
+    )
+
+  }, [tasks])
+
+  
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundColor: "#0f172a",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "20px"
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "500px",
+          backgroundColor: "#1e293b",
+          padding: "30px",
+          borderRadius: "20px",
+          boxShadow: "0 0 20px rgba(0,0,0,0.3)"
+        }}
+      >
 
-      <h1>TaskFlow</h1>
-
-      <p>Manage your daily tasks efficiently</p>
-
-      <div style={{ marginBottom: "20px" }}>
-
-        <input
-          type="text"
-          placeholder="Enter task"
-          value={task}
-          onChange={(e) => setTask(e.target.value)}
+        <h1
           style={{
-            padding: "10px",
-            width: "250px",
-            marginRight: "10px"
+            textAlign: "center",
+            fontSize: "42px",
+            marginBottom: "10px"
           }}
-        />
+        >
+          TaskFlow
+        </h1>
 
-        <button
-          onClick={addTask}
+        <p
           style={{
-            padding: "10px"
+            textAlign: "center",
+            color: "#94a3b8",
+            marginBottom: "30px"
           }}
         >
-          Add
-        </button>
+          Manage your daily tasks efficiently
+        </p>
 
-      </div>
-
-      <div style={{ marginBottom: "20px" }}>
-
-        <button onClick={() => setFilter("all")}>
-          All
-        </button>
-
-        <button
-          onClick={() => setFilter("completed")}
-          style={{ marginLeft: "10px" }}
+        <div
+          style={{
+            display: "flex",
+            gap: "10px",
+            marginBottom: "20px"
+          }}
         >
-          Completed
-        </button>
 
-        <button
-          onClick={() => setFilter("pending")}
-          style={{ marginLeft: "10px" }}
-        >
-          Pending
-        </button>
-
-      </div>
-
-      {
-        filteredTasks.map((item) => (
-          <div
-            key={item.id}
+          <input
+            type="text"
+            placeholder="Enter task..."
+            value={task}
+            onChange={(e) => setTask(e.target.value)}
             style={{
-              background: "#1e293b",
-              padding: "15px",
-              marginBottom: "10px",
-              borderRadius: "10px"
+              flex: 1,
+              padding: "12px",
+              border: "none",
+              borderRadius: "10px",
+              outline: "none",
+              fontSize: "15px"
+            }}
+          />
+
+          <button
+            onClick={addTask}
+            style={{
+              padding: "12px 18px",
+              border: "none",
+              borderRadius: "10px",
+              backgroundColor: "#3b82f6",
+              color: "white",
+              cursor: "pointer",
+              fontWeight: "bold"
             }}
           >
-            <div>
+            Add
+          </button>
 
-              <input
-                type="checkbox"
-                checked={item.completed}
-                onChange={() => toggleTask(item.id)}
-              />
+        </div>
 
-              <span
+        <div
+          style={{
+            display: "flex",
+            gap: "10px",
+            marginBottom: "25px"
+          }}
+        >
+
+          <button
+            onClick={() => setFilter("all")}
+            style={filterButtonStyle("all")}
+          >
+            All
+          </button>
+
+          <button
+            onClick={() => setFilter("completed")}
+            style={filterButtonStyle("completed")}
+          >
+            Completed
+          </button>
+
+          <button
+            onClick={() => setFilter("pending")}
+            style={filterButtonStyle("pending")}
+          >
+            Pending
+          </button>
+
+        </div>
+
+        {
+          filteredTasks.map((item) => (
+            <div
+              key={item.id}
+              style={{
+                backgroundColor: "#334155",
+                padding: "15px",
+                borderRadius: "12px",
+                marginBottom: "12px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center"
+              }}
+            >
+
+              <div
                 style={{
-                  marginLeft: "10px",
-                  textDecoration: item.completed
-                    ? "line-through"
-                    : "none"
+                  display: "flex",
+                  alignItems: "center"
                 }}
               >
-                {item.title}
-              </span>
+
+                <input
+                  type="checkbox"
+                  checked={item.completed}
+                  onChange={() => toggleTask(item.id)}
+                />
+
+                <span
+                  style={{
+                    marginLeft: "10px",
+                    textDecoration: item.completed
+                      ? "line-through"
+                      : "none",
+                    color: item.completed
+                      ? "#94a3b8"
+                      : "white"
+                  }}
+                >
+                  {item.title}
+                </span>
+
+              </div>
+
               <button
                 onClick={() => deleteTask(item.id)}
                 style={{
-                  marginLeft: "15px"
+                  backgroundColor: "#ef4444",
+                  border: "none",
+                  padding: "8px 12px",
+                  borderRadius: "8px",
+                  color: "white",
+                  cursor: "pointer"
                 }}
               >
                 Delete
               </button>
-            </div>
-          </div>
-        ))
-      }
 
+            </div>
+          ))
+        }
+
+      </div>
     </div>
   )
 }
