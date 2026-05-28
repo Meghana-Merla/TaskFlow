@@ -2,7 +2,7 @@ const express = require("express")
 
 const router = express.Router()
 
-const Task = require("../models/Task")
+const { createTask } = require("../controllers/taskController")
 
 /**
  * @swagger
@@ -23,58 +23,7 @@ const Task = require("../models/Task")
  *       201:
  *         description: Task created successfully
  */
-router.post("/tasks", async (req, res) => {
 
-  try {
+router.post("/tasks", createTask)
 
-    const { title } = req.body
-
-    const newTask = new Task({
-      title
-    })
-
-    const savedTask = await newTask.save()
-
-    res.status(201).json(savedTask)
-
-  }
-
-  catch (error) {
-
-    res.status(500).json({
-      message: error.message
-    })
-
-  }
-
-})
-/**
- * @swagger
- * /api/tasks:
- *   get:
- *     summary: Get all tasks
- *     responses:
- *       200:
- *         description: Successfully fetched tasks
- */
-
-router.get("/tasks", async (req, res) => {
-
-  try {
-
-    const tasks = await Task.find()
-
-    res.status(200).json(tasks)
-
-  }
-
-  catch (error) {
-
-    res.status(500).json({
-      message: error.message
-    })
-
-  }
-
-})
 module.exports = router
