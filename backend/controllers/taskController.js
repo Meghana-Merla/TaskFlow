@@ -7,7 +7,8 @@ const createTask = async (req, res) => {
     const { title } = req.body
 
     const newTask = new Task({
-      title
+      title,
+      user: req.user.id
     })
 
     const savedTask = await newTask.save()
@@ -30,7 +31,9 @@ const getTasks = async (req, res) => {
 
   try {
 
-    const tasks = await Task.find()
+    const tasks = await Task.find({
+      user: req.user.id
+    })
 
     res.status(200).json(tasks)
 
@@ -49,13 +52,18 @@ const updateTask = async (req, res) => {
 
   try {
 
-    const updatedTask = await Task.findByIdAndUpdate(
+    const updatedTask = await Task.findOneAndUpdate(
 
-      req.params.id,
+      {
+        _id: req.params.id,
+        user: req.user.id
+      },
 
       req.body,
 
-      { new: true }
+      {
+        returnDocument: "after"
+      }
 
     )
 
@@ -77,7 +85,13 @@ const deleteTask = async (req, res) => {
 
   try {
 
-    await Task.findByIdAndDelete(req.params.id)
+    await Task.findOneAndDelete({
+
+      _id: req.params.id,
+
+      user: req.user.id
+
+    })
 
     res.status(200).json({
       message: "Task deleted successfully"
