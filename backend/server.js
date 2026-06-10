@@ -7,6 +7,7 @@ const cors = require("cors")
 const swaggerUi = require("swagger-ui-express")
 const swaggerJsDoc = require("swagger-jsdoc")
 const taskRoutes = require("./routes/taskRoutes")
+const authRoutes =require("./routes/authRoutes")
 const app = express()
 connectDB()
 
@@ -23,6 +24,20 @@ const options = {
       version: "1.0.0",
       description: "TaskFlow Backend API Documentation"
     },
+    components: {
+  securitySchemes: {
+    bearerAuth: {
+      type: "http",
+      scheme: "bearer",
+      bearerFormat: "JWT"
+    }
+  }
+},
+security: [
+  {
+    bearerAuth: []
+  }
+],
     servers: [
       {
         url: "http://localhost:5000"
@@ -56,6 +71,7 @@ app.get("/", (req, res) => {
 
 const PORT = 5000
 app.use("/api", taskRoutes)
+app.use("/api/auth", authRoutes)
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
