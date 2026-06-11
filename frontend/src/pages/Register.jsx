@@ -17,7 +17,7 @@ function Register() {
     try {
 
       await axios.post(
-        "https://taskflow-backend-uedi.onrender.com/api/auth/register",
+        `${API_URL}/api/auth/register`,
         {
           name,
           email,

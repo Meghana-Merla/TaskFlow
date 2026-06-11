@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom"
 import { FaRocket } from "react-icons/fa"
 import "../auth.css"
 
+const API_URL = import.meta.env.VITE_API_URL
+
 function Login() {
 
   const [email, setEmail] = useState("")
@@ -16,7 +18,7 @@ function Login() {
     try {
 
       const response = await axios.post(
-        "https://taskflow-backend-uedi.onrender.com/api/auth/login",
+        `${API_URL}/api/auth/login`,
         {
           email,
           password

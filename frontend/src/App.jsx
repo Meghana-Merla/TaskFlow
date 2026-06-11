@@ -11,6 +11,8 @@ import {
 }
 from "react-icons/fa"
 
+const API_URL = import.meta.env.VITE_API_URL
+
 function App(){
 
   const [tasks,setTasks] = useState([])
@@ -31,7 +33,7 @@ function App(){
   const fetchTasks = async () => {
 
     const response = await axios.get(
-      "https://taskflow-backend-uedi.onrender.com/api/tasks",
+      "${API_URL}/api/tasks",
       {
         headers: {
           Authorization: `Bearer ${token}`
@@ -56,7 +58,7 @@ function App(){
     if(editId){
 
       await axios.put(
-        `https://taskflow-backend-uedi.onrender.com/api/tasks/${editId}`,
+        `${API_URL}/api/tasks/${editId}`,
         {
           title
         },
@@ -74,7 +76,7 @@ function App(){
     else{
 
       await axios.post(
-        "https://taskflow-backend-uedi.onrender.com/api/tasks",
+        `${API_URL}/api/tasks`,
         {
           title
         },
@@ -96,7 +98,7 @@ function App(){
   const deleteTask = async(id) => {
 
     await axios.delete(
-      `https://taskflow-backend-uedi.onrender.com/api/tasks/${id}`,
+      `${API_URL}/api/tasks/${id}`,
       {
         headers:{
           Authorization:`Bearer ${token}`
@@ -111,7 +113,7 @@ function App(){
   const toggleTask = async(task) => {
 
     await axios.put(
-      `https://taskflow-backend-uedi.onrender.com/api/tasks/${task._id}`,
+      `${API_URL}/api/tasks/${task._id}`,
       {
         completed: !task.completed
       },
