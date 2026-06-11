@@ -33,7 +33,7 @@ function App(){
   const fetchTasks = async () => {
 
     const response = await axios.get(
-      "${API_URL}/api/tasks",
+      `${API_URL}/api/tasks`,
       {
         headers: {
           Authorization: `Bearer ${token}`
