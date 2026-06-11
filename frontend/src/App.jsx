@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 import {
   FaTrash,
@@ -16,12 +17,27 @@ function App(){
   const [title,setTitle] = useState("")
   const [filter,setFilter] = useState("all")
   const [darkMode,setDarkMode] = useState(true)
+  const navigate = useNavigate()
   const [editId,setEditId] = useState(null)
+  const token = localStorage.getItem("token")
+
+  const handleLogout = () => {
+
+    localStorage.removeItem("token")
+
+    navigate("/")
+
+  }
 
   const fetchTasks = async () => {
 
     const response = await axios.get(
-      "http://localhost:5000/api/tasks"
+      "http://localhost:5000/api/tasks",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
     )
 
     setTasks(response.data)
@@ -44,6 +60,11 @@ function App(){
         `http://localhost:5000/api/tasks/${editId}`,
         {
           title
+        },
+        {
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
         }
       )
 
@@ -57,6 +78,11 @@ function App(){
         "http://localhost:5000/api/tasks",
         {
           title
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         }
       )
 
@@ -71,7 +97,12 @@ function App(){
   const deleteTask = async(id) => {
 
     await axios.delete(
-      `http://localhost:5000/api/tasks/${id}`
+      `http://localhost:5000/api/tasks/${id}`,
+      {
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      }
     )
 
     fetchTasks()
@@ -84,6 +115,11 @@ function App(){
       `http://localhost:5000/api/tasks/${task._id}`,
       {
         completed: !task.completed
+      },
+      {
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
       }
     )
 
@@ -138,6 +174,13 @@ function App(){
               </>
             }
 
+          </button>
+
+          <button
+            className="logout-btn"
+            onClick={handleLogout}
+          >
+            Logout
           </button>
 
         </div>

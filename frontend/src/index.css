@@ -392,3 +392,18 @@ button:hover{
 .light .footer{
   color:#6b7280;
 }
+
+.logout-btn{
+  background:#dc2626;
+  color:white;
+  border:none;
+  padding:12px 20px;
+  border-radius:14px;
+  cursor:pointer;
+  font-size:15px;
+  font-weight:600;
+}
+
+.logout-btn:hover{
+  opacity:0.9;
+}
