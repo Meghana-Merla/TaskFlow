@@ -19,7 +19,11 @@ body{
 
 .dark{
   background:
-  radial-gradient(circle at top left,#4c1d95,#020617);
+  linear-gradient(
+    135deg,
+    #4c1d95,
+    #07002e
+  );
 }
 
 .light{

@@ -1,6 +1,8 @@
 import { useState } from "react"
 import axios from "axios"
 import { Link, useNavigate } from "react-router-dom"
+import { FaRocket } from "react-icons/fa"
+import "../auth.css"
 
 function Login() {
 
@@ -45,34 +47,56 @@ function Login() {
 
   return (
 
-    <div>
+    <div className="auth-page">
 
-      <h1>Login</h1>
+      <div className="auth-card">
 
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <div className="auth-logo">
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+          <h1>
+            Task<span>Flow</span>
+          </h1>
 
-      <button onClick={handleLogin}>
-        Login
-      </button>
+          <FaRocket />
 
-      <p>
-        Don't have an account?
-        <Link to="/register">
-          {" "}Register
-        </Link>
-      </p>
+        </div>
+
+        <p className="auth-subtitle">
+          Welcome back! Login to continue.
+        </p>
+
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <button
+          className="auth-btn"
+          onClick={handleLogin}
+        >
+          Login
+        </button>
+
+        <p className="auth-link">
+
+          Don't have an account?
+
+          <Link to="/register">
+            {" "}Register
+          </Link>
+
+        </p>
+
+      </div>
 
     </div>
 

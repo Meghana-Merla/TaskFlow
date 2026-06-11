@@ -16,7 +16,6 @@ function App(){
   const [tasks,setTasks] = useState([])
   const [title,setTitle] = useState("")
   const [filter,setFilter] = useState("all")
-  const [darkMode,setDarkMode] = useState(true)
   const navigate = useNavigate()
   const [editId,setEditId] = useState(null)
   const token = localStorage.getItem("token")
@@ -149,32 +148,11 @@ function App(){
 
   return(
 
-    <div className={darkMode ? "app dark" : "app light"}>
+    <div className="app dark">
 
       <div className="container">
 
         <div className="topbar">
-
-          <button
-            className="theme-btn"
-            onClick={() => setDarkMode(!darkMode)}
-          >
-
-            {
-              darkMode
-              ?
-              <>
-                <FaSun />
-                Light
-              </>
-              :
-              <>
-                <FaMoon />
-                Dark
-              </>
-            }
-
-          </button>
 
           <button
             className="logout-btn"

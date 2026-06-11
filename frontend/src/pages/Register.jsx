@@ -1,6 +1,8 @@
 import { useState } from "react"
 import axios from "axios"
 import { Link, useNavigate } from "react-router-dom"
+import { FaRocket } from "react-icons/fa"
+import "../auth.css"
 
 function Register() {
 
@@ -42,39 +44,63 @@ function Register() {
 
   return (
 
-    <div>
+    <div className="auth-page">
 
-      <h1>Register</h1>
+      <div className="auth-card">
 
-      <input
-        type="text"
-        placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
+        <div className="auth-logo">
 
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+          <h1>
+            Task<span>Flow</span>
+          </h1>
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+          <FaRocket />
 
-      <button onClick={handleRegister}>
-        Register
-      </button>
+        </div>
 
-      <p>
-        Already have an account?
-        <Link to="/"> Login </Link>
-      </p>
+        <p className="auth-subtitle">
+          Create your account and start organizing.
+        </p>
+
+        <input
+          type="text"
+          placeholder="Full Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <button
+          className="auth-btn"
+          onClick={handleRegister}
+        >
+          Register
+        </button>
+
+        <p className="auth-link">
+
+          Already have an account?
+
+          <Link to="/">
+            {" "}Login
+          </Link>
+
+        </p>
+
+      </div>
 
     </div>
 
