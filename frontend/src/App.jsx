@@ -31,7 +31,7 @@ function App(){
   const fetchTasks = async () => {
 
     const response = await axios.get(
-      "http://localhost:5000/api/tasks",
+      "https://taskflow-backend-uedi.onrender.com/api/tasks",
       {
         headers: {
           Authorization: `Bearer ${token}`
@@ -56,7 +56,7 @@ function App(){
     if(editId){
 
       await axios.put(
-        `http://localhost:5000/api/tasks/${editId}`,
+        `https://taskflow-backend-uedi.onrender.com/api/tasks/${editId}`,
         {
           title
         },
@@ -74,7 +74,7 @@ function App(){
     else{
 
       await axios.post(
-        "http://localhost:5000/api/tasks",
+        "https://taskflow-backend-uedi.onrender.com/api/tasks",
         {
           title
         },
@@ -96,7 +96,7 @@ function App(){
   const deleteTask = async(id) => {
 
     await axios.delete(
-      `http://localhost:5000/api/tasks/${id}`,
+      `https://taskflow-backend-uedi.onrender.com/api/tasks/${id}`,
       {
         headers:{
           Authorization:`Bearer ${token}`
@@ -111,7 +111,7 @@ function App(){
   const toggleTask = async(task) => {
 
     await axios.put(
-      `http://localhost:5000/api/tasks/${task._id}`,
+      `https://taskflow-backend-uedi.onrender.com/api/tasks/${task._id}`,
       {
         completed: !task.completed
       },

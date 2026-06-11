@@ -40,7 +40,7 @@ security: [
 ],
     servers: [
       {
-        url: "http://localhost:5000"
+        url: process.env.RENDER_EXTERNAL_URL || "http://localhost:5000"
       }
     ]
   },
@@ -69,9 +69,11 @@ app.get("/", (req, res) => {
   res.send("Backend running successfully")
 })
 
-const PORT = 5000
+const PORT = process.env.PORT || 5000
+
 app.use("/api", taskRoutes)
 app.use("/api/auth", authRoutes)
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
